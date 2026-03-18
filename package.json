@@ -1,0 +1,36 @@
+{
+  "name": "@colefoster/localsets",
+  "version": "0.1.0",
+  "description": "Pokemon Showdown battle sets — RandBats data and Smogon competitive sets. Data sourced from pkmn/randbats and smogon/pokemon-showdown.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "data"
+  ],
+  "scripts": {
+    "pull-data": "node scripts/pull-data.js",
+    "build": "tsc",
+    "prepublishOnly": "npm run pull-data && npm run build"
+  },
+  "keywords": [
+    "pokemon",
+    "showdown",
+    "sets",
+    "randbats",
+    "smogon"
+  ],
+  "author": "Cole Foster",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.19.15",
+    "typescript": "^5.9.3"
+  }
+}
