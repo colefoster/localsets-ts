@@ -1,5 +1,5 @@
 import type { RandBatsEntry, RandBatsRole } from './types.js';
-import { loadRandbats, getRandbatsFormats } from './data.js';
+import { getRandbats, preloadRandbats, getRandbatsFormats } from './data.js';
 
 function toId(name: string): string {
     return name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -7,10 +7,19 @@ function toId(name: string): string {
 
 export class RandBats {
     /**
+     * Preload randbats data for a format. Call this before using other methods
+     * to ensure data is available synchronously.
+     */
+    static preload(format: string = 'gen9randombattle'): Promise<Record<string, RandBatsEntry>> {
+        return preloadRandbats(format);
+    }
+
+    /**
      * Get RandBats data for a Pokemon in a format.
+     * Returns null if the format hasn't been preloaded or the Pokemon isn't found.
      */
     static get(pokemon: string, format: string = 'gen9randombattle'): RandBatsEntry | null {
-        const data = loadRandbats(format);
+        const data = getRandbats(format);
         const id = toId(pokemon);
         for (const [key, value] of Object.entries(data)) {
             if (toId(key) === id) return value;
@@ -22,7 +31,7 @@ export class RandBats {
      * List all Pokemon in a RandBats format.
      */
     static list(format: string = 'gen9randombattle'): string[] {
-        return Object.keys(loadRandbats(format));
+        return Object.keys(getRandbats(format));
     }
 
     /**
@@ -59,7 +68,6 @@ export class RandBats {
     static items(pokemon: string, format: string = 'gen9randombattle'): string[] {
         const entry = this.get(pokemon, format);
         if (!entry) return [];
-        // Top-level items, plus per-role items
         const all = new Set<string>(entry.items ?? []);
         for (const role of Object.values(entry.roles ?? {})) {
             for (const item of role.items ?? []) all.add(item);

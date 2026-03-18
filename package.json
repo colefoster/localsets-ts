@@ -1,5 +1,5 @@
 {
-  "name": "@colefoster/localsets",
+  "name": "localsets",
   "version": "0.1.0",
   "description": "Pokemon Showdown battle sets — RandBats data and Smogon competitive sets. Data sourced from pkmn/randbats and smogon/pokemon-showdown.",
   "type": "module",
