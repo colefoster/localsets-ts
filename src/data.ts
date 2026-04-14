@@ -3,7 +3,7 @@ import type { RandBatsEntry, SmogonEntry, FormatIndex } from './types.js';
 import randbatsIndex from '../data/randbats/index.json' with { type: 'json' };
 import smogonIndex from '../data/smogon/index.json' with { type: 'json' };
 
-// Eager imports for common formats
+// Eager imports for supported formats
 import gen9rb from '../data/randbats/gen9randombattle.json' with { type: 'json' };
 
 const randbatsCache = new Map<string, Record<string, RandBatsEntry>>();
@@ -22,27 +22,17 @@ export function getSmogonFormats(): string[] {
 
 /**
  * Synchronously get cached randbats data. Returns empty object if not yet loaded.
- * gen9randombattle is always available; other formats need preloadRandbats() first.
+ * gen9randombattle is always available.
  */
 export function getRandbats(format: string): Record<string, RandBatsEntry> {
     return randbatsCache.get(format) ?? {};
 }
 
 /**
- * Asynchronously preload randbats data for a format.
- * After this resolves, getRandbats() will return the data synchronously.
+ * Register randbats data for a format into the cache.
  */
-export async function preloadRandbats(format: string): Promise<Record<string, RandBatsEntry>> {
-    if (randbatsCache.has(format)) return randbatsCache.get(format)!;
-    try {
-        const mod = await import(`./data/randbats/${format}.json`, { with: { type: 'json' } });
-        const data = mod.default as Record<string, RandBatsEntry>;
-        randbatsCache.set(format, data);
-        return data;
-    } catch {
-        randbatsCache.set(format, {});
-        return {};
-    }
+export function setRandbats(format: string, data: Record<string, RandBatsEntry>): void {
+    randbatsCache.set(format, data);
 }
 
 /**
@@ -53,17 +43,8 @@ export function getSmogon(format: string): Record<string, SmogonEntry> {
 }
 
 /**
- * Asynchronously preload smogon data for a format.
+ * Register smogon data for a format into the cache.
  */
-export async function preloadSmogon(format: string): Promise<Record<string, SmogonEntry>> {
-    if (smogonCache.has(format)) return smogonCache.get(format)!;
-    try {
-        const mod = await import(`./data/smogon/${format}.json`, { with: { type: 'json' } });
-        const data = mod.default as Record<string, SmogonEntry>;
-        smogonCache.set(format, data);
-        return data;
-    } catch {
-        smogonCache.set(format, {});
-        return {};
-    }
+export function setSmogon(format: string, data: Record<string, SmogonEntry>): void {
+    smogonCache.set(format, data);
 }

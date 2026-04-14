@@ -1,19 +1,11 @@
 import type { RandBatsEntry, RandBatsRole } from './types.js';
-import { getRandbats, preloadRandbats, getRandbatsFormats } from './data.js';
+import { getRandbats, getRandbatsFormats } from './data.js';
 
 function toId(name: string): string {
     return name.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
 export class RandBats {
-    /**
-     * Preload randbats data for a format. Call this before using other methods
-     * to ensure data is available synchronously.
-     */
-    static preload(format: string = 'gen9randombattle'): Promise<Record<string, RandBatsEntry>> {
-        return preloadRandbats(format);
-    }
-
     /**
      * Get RandBats data for a Pokemon in a format.
      * Returns null if the format hasn't been preloaded or the Pokemon isn't found.

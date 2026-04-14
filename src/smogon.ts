@@ -1,18 +1,11 @@
 import type { SmogonEntry, SmogonSet } from './types.js';
-import { getSmogon, preloadSmogon, getSmogonFormats } from './data.js';
+import { getSmogon, getSmogonFormats } from './data.js';
 
 function toId(name: string): string {
     return name.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
 export class Smogon {
-    /**
-     * Preload smogon data for a format.
-     */
-    static preload(format: string = 'gen9ou'): Promise<Record<string, SmogonEntry>> {
-        return preloadSmogon(format);
-    }
-
     /**
      * Get all Smogon sets for a Pokemon in a format.
      * Returns null if format hasn't been preloaded or Pokemon isn't found.
