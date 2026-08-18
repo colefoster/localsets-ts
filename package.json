@@ -13,7 +13,8 @@
   },
   "files": [
     "dist",
-    "data"
+    "data",
+    "NOTICE.md"
   ],
   "scripts": {
     "pull-data": "node scripts/pull-data.js",
@@ -32,5 +33,13 @@
   "devDependencies": {
     "@types/node": "^22.19.15",
     "typescript": "^5.9.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colefoster/localsets-ts.git"
+  },
+  "homepage": "https://github.com/colefoster/localsets-ts#readme",
+  "bugs": {
+    "url": "https://github.com/colefoster/localsets-ts/issues"
   }
 }
